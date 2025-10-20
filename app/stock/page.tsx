@@ -225,9 +225,10 @@ export default function StockManagementPage() {
       alert(`Stock ${formData.type === 'add' ? 'added' : 'removed'} successfully!`)
       resetForm()
       fetchProducts()
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       console.error('Error updating stock:', error)
-      alert(`Failed to update stock: ${error.message || 'Unknown error'}`)
+      alert(`Failed to update stock: ${err.message || 'Unknown error'}`)
     }
   }
 

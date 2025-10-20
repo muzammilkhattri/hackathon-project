@@ -24,7 +24,7 @@ const chartConfig = {
 export function ShopEaseChartInteractive() {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = React.useState("30d")
-  const [chartData, setChartData] = React.useState<any[]>([])
+  const [chartData, setChartData] = React.useState<{ date: string; revenue: number; profit: number }[]>([])
   const [loading, setLoading] = React.useState(true)
   const supabase = createClient()
 

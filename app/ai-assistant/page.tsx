@@ -37,7 +37,7 @@ export default function AIAssistantPage() {
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [metadata, setMetadata] = useState<BusinessMetadata | null>(null)
+  const [, setMetadata] = useState<BusinessMetadata | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -88,12 +88,12 @@ export default function AIAssistantPage() {
       if (data.metadata) {
         setMetadata(data.metadata)
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error:', error)
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: `Sorry, I encountered an error: ${error.message}\n\nPlease make sure:\n1. GEMINI_API_KEY is configured in .env.local\n2. The API key is valid\n3. You have restarted the development server\n4. Check the server console for more details`,
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease make sure:\n1. GEMINI_API_KEY is configured in .env.local\n2. The API key is valid\n3. You have restarted the development server\n4. Check the server console for more details`,
         timestamp: new Date(),
       }
       setMessages((prev) => [...prev, errorMessage])
@@ -165,22 +165,22 @@ export default function AIAssistantPage() {
                         <ReactMarkdown 
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            h1: ({node, ...props}) => <h1 className="text-lg font-bold" {...props} />,
-                            h2: ({node, ...props}) => <h2 className="text-base font-bold" {...props} />,
-                            h3: ({node, ...props}) => <h3 className="text-sm font-bold" {...props} />,
-                            p: ({node, ...props}) => <p className="leading-relaxed" {...props} />,
-                            ul: ({node, ...props}) => <ul className="list-disc pl-4" {...props} />,
-                            ol: ({node, ...props}) => <ol className="list-decimal pl-4" {...props} />,
-                            li: ({node, ...props}) => <li className="leading-relaxed" {...props} />,
-                            code: ({node, inline, ...props}: any) => 
+                            h1: ({...props}) => <h1 className="text-lg font-bold" {...props} />,
+                            h2: ({...props}) => <h2 className="text-base font-bold" {...props} />,
+                            h3: ({...props}) => <h3 className="text-sm font-bold" {...props} />,
+                            p: ({...props}) => <p className="leading-relaxed" {...props} />,
+                            ul: ({...props}) => <ul className="list-disc pl-4" {...props} />,
+                            ol: ({...props}) => <ol className="list-decimal pl-4" {...props} />,
+                            li: ({...props}) => <li className="leading-relaxed" {...props} />,
+                            code: ({inline, ...props}: { inline?: boolean; [key: string]: unknown }) => 
                               inline ? (
                                 <code className="bg-background/50 px-1 py-0.5 rounded text-xs font-mono" {...props} />
                               ) : (
                                 <code className="block bg-background/50 p-2 rounded text-xs font-mono overflow-x-auto" {...props} />
                               ),
-                            strong: ({node, ...props}) => <strong className="font-semibold" {...props} />,
-                            em: ({node, ...props}) => <em className="italic" {...props} />,
-                            blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary/30 pl-4 italic" {...props} />,
+                            strong: ({...props}) => <strong className="font-semibold" {...props} />,
+                            em: ({...props}) => <em className="italic" {...props} />,
+                            blockquote: ({...props}) => <blockquote className="border-l-4 border-primary/30 pl-4 italic" {...props} />,
                           }}
                         >
                           {message.content}

@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select } from '@/components/ui/select'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import { Download, FileText } from 'lucide-react'
-import { parse } from 'papaparse'
+
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { format, subDays, startOfDay, endOfDay } from 'date-fns'

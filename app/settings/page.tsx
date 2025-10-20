@@ -37,8 +37,9 @@ export default function SettingsPage() {
       if (error) throw error
 
       setMessage('Profile updated successfully!')
-    } catch (error: any) {
-      setMessage(error.message || 'Failed to update profile')
+    } catch (error: unknown) {
+      const err = error as Error;
+      setMessage(err.message || 'Failed to update profile')
     } finally {
       setLoading(false)
     }

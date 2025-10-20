@@ -32,8 +32,8 @@ export default function LoginPage() {
 
       router.push('/dashboard')
       router.refresh()
-    } catch (error: any) {
-      setError(error.message || 'Failed to login')
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Failed to login')
     } finally {
       setLoading(false)
     }

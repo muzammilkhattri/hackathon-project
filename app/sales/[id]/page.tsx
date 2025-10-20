@@ -122,7 +122,7 @@ export default function InvoiceDetailPage() {
       },
     })
 
-    const finalY = (doc as any).lastAutoTable.finalY || 96
+    const finalY = (doc as { lastAutoTable?: { finalY?: number } }).lastAutoTable?.finalY || 96
 
     // Totals
     doc.setLineWidth(0.5)

@@ -137,20 +137,21 @@ export default function CategoriesPage() {
       console.log('✅ Category saved successfully')
       resetForm()
       fetchCategories()
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as { code?: string; message?: string; details?: string }
       console.error('❌ Error saving category:', error)
-      console.error('❌ Error code:', error.code)
-      console.error('❌ Error message:', error.message)
-      console.error('❌ Error details:', error.details)
+      console.error('❌ Error code:', err.code)
+      console.error('❌ Error message:', err.message)
+      console.error('❌ Error details:', err.details)
       
-      if (error.code === '23505') {
+      if (err.code === '23505') {
         alert('A category with this name already exists')
-      } else if (error.code === '42P01') {
+      } else if (err.code === '42P01') {
         alert('Categories table does not exist. Please run CATEGORIES_QUICK_SETUP.sql in Supabase first.')
-      } else if (error.message?.includes('relation') && error.message?.includes('does not exist')) {
+      } else if (err.message?.includes('relation') && err.message?.includes('does not exist')) {
         alert('Categories table not found. Please run the SQL script (CATEGORIES_QUICK_SETUP.sql) in Supabase SQL Editor.')
       } else {
-        alert(`Failed to save category: ${error.message || 'Unknown error'}`)
+        alert(`Failed to save category: ${err.message || 'Unknown error'}`)
       }
     }
   }
@@ -242,7 +243,7 @@ export default function CategoriesPage() {
                 <Package className="h-12 w-12 mb-3 text-muted-foreground" />
                 <p className="text-muted-foreground">No categories yet</p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Click "Add Category" to create your first category
+                  Click &quot;Add Category&quot; to create your first category
                 </p>
               </div>
             ) : (

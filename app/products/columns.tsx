@@ -103,7 +103,7 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false,
     cell: ({ row, table }) => {
       const product = row.original
-      const { onEdit, onDelete, isAdmin } = (table.options.meta as any) || {}
+      const { onEdit, onDelete, isAdmin } = (table.options.meta as { onEdit?: (product: Product) => void; onDelete?: (id: string) => void; isAdmin?: boolean }) || {}
 
       if (!isAdmin) return null
 

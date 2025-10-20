@@ -309,7 +309,7 @@ export function ShopEaseDataTable() {
   )
 }
 
-function DataTablePagination({ table }: { table: any }) {
+function DataTablePagination({ table }: { table: { getState: () => { pagination: { pageIndex: number; pageSize: number } }; getFilteredRowModel: () => { rows: { length: number } }; setPageSize: (size: number) => void; setPageIndex: (index: number) => void; getCanPreviousPage: () => boolean; previousPage: () => void; getCanNextPage: () => boolean; nextPage: () => void; getPageCount: () => number } }) {
   return (
     <div className="flex items-center justify-between px-4">
       <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">

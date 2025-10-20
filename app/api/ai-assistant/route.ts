@@ -153,15 +153,16 @@ Please provide a helpful, concise answer based on the business data above. If yo
         totalProfit: totalProfit.toFixed(2),
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as Error;
     console.error("AI Assistant error:", error);
-    console.error("Error details:", error.message);
-    console.error("Error stack:", error.stack);
+    console.error("Error details:", err.message);
+    console.error("Error stack:", err.stack);
 
     return NextResponse.json(
       {
         error: "Internal server error",
-        details: error.message || "Unknown error",
+        details: err.message || "Unknown error",
         hint: "Check server logs for more details",
       },
       { status: 500 },

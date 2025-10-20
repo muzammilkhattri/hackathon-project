@@ -190,7 +190,7 @@ export function ShopEaseSectionCards() {
 
       <Card className="@container/card">
         <CardHeader className="relative">
-          <CardDescription>Today's Sales</CardDescription>
+          <CardDescription>Today&apos;s Sales</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             {formatCurrency(stats.todaySales)}
           </CardTitle>

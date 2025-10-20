@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { LayoutDashboard, Package, ShoppingCart, FileText, Settings, LogOut, Store, PackagePlus, Sparkles } from "lucide-react"
+import { LayoutDashboard, Package, ShoppingCart, FileText, Store, PackagePlus, Sparkles } from "lucide-react"
 import { ShopEaseNavMain } from "@/components/shopease-nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { ShopEaseNavUser } from "@/components/shopease-nav-user"
@@ -11,7 +11,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
 export function ShopEaseAppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { profile, isAdmin } = useUser()
+  const { profile } = useUser()
   const router = useRouter()
   const supabase = createClient()
 
@@ -58,7 +58,7 @@ export function ShopEaseAppSidebar({ ...props }: React.ComponentProps<typeof Sid
     },
   ]
 
-  const navSecondary: any[] = []
+  const navSecondary: never[] = []
 
   const userData = {
     name: profile?.full_name || profile?.email?.split('@')[0] || "User",

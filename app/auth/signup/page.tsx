@@ -38,8 +38,8 @@ export default function SignupPage() {
 
       router.push('/dashboard')
       router.refresh()
-    } catch (error: any) {
-      setError(error.message || 'Failed to sign up')
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Failed to sign up')
     } finally {
       setLoading(false)
     }

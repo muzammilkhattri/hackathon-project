@@ -28,7 +28,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ShopEaseChartLowStock() {
-  const [chartData, setChartData] = useState<any[]>([])
+  const [chartData, setChartData] = useState<{ name: string; stock: number; fill: string }[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
