@@ -234,7 +234,7 @@ export default function InvoiceDetailPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Invoice {invoice.invoice_number}</CardTitle>
-            <Badge variant={invoice.status === 'completed' ? 'success' : 'warning'}>
+            <Badge variant={invoice.status === 'completed' ? 'default' : 'secondary'}>
               {invoice.status}
             </Badge>
           </div>

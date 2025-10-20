@@ -46,7 +46,10 @@ export function ShopEaseChartInteractive() {
         .select('*')
         .eq('status', 'completed')
 
-      if (!invoices) {
+      type InvoiceType = { created_at: string; total_amount: number; total_profit: number };
+      const invoicesTyped = (invoices || []) as InvoiceType[];
+      
+      if (!invoicesTyped.length) {
         setLoading(false)
         return
       }
@@ -62,7 +65,7 @@ export function ShopEaseChartInteractive() {
       })
 
       const salesByDay = days.map(date => {
-        const dayInvoices = invoices.filter(inv => inv.created_at.startsWith(date))
+        const dayInvoices = invoicesTyped.filter(inv => inv.created_at.startsWith(date))
         const revenue = dayInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
         const profit = dayInvoices.reduce((sum, inv) => sum + Number(inv.total_profit), 0)
         

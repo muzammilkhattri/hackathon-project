@@ -43,8 +43,11 @@ export function ShopEaseSectionCards() {
         supabase.from('products').select('*'),
       ])
 
-      const invoices = invoicesRes.data || []
-      const products = productsRes.data || []
+      type InvoiceType = { total_amount: number; total_profit: number; created_at: string };
+      type ProductType = { quantity: number; low_stock_threshold: number };
+      
+      const invoices = (invoicesRes.data || []) as InvoiceType[]
+      const products = (productsRes.data || []) as ProductType[]
 
       const totalRevenue = invoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
       const totalProfit = invoices.reduce((sum, inv) => sum + Number(inv.total_profit), 0)

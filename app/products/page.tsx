@@ -82,9 +82,9 @@ export default function ProductsPage() {
     }
 
     if (editingProduct) {
-      await supabase.from('products').update(productData).eq('id', editingProduct.id)
+      await supabase.from('products').update(productData as never).eq('id', editingProduct.id)
     } else {
-      await supabase.from('products').insert(productData)
+      await supabase.from('products').insert(productData as never)
     }
 
     resetForm()

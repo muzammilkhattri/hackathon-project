@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Select } from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import { Download, FileText } from 'lucide-react'
 
@@ -64,7 +64,8 @@ export default function ReportsPage() {
       .lte('created_at', endDate.toISOString())
       .order('created_at', { ascending: false })
 
-    const invoiceData = data || []
+    type InvoiceData = { total_amount: number; total_profit: number };
+    const invoiceData = (data || []) as (Invoice & InvoiceData)[]
     setInvoices(invoiceData)
 
     const totalSales = invoiceData.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
@@ -138,11 +139,16 @@ export default function ReportsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Reports</h1>
         <div className="flex gap-3">
-          <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
-            <option value="today">Today</option>
-            <option value="week">Last 7 Days</option>
-            <option value="month">Last 30 Days</option>
-            <option value="all">All Time</option>
+          <Select value={period} onValueChange={setPeriod}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="today">Today</SelectItem>
+              <SelectItem value="week">Last 7 Days</SelectItem>
+              <SelectItem value="month">Last 30 Days</SelectItem>
+              <SelectItem value="all">All Time</SelectItem>
+            </SelectContent>
           </Select>
         </div>
       </div>

@@ -63,11 +63,12 @@ export async function POST(request: NextRequest) {
     type Product = { id: string; name: string; quantity: number; price: number; cost_price: number; category: string; low_stock_threshold: number };
     type Invoice = { invoice_number: string; total_amount: number; total_profit: number; payment_method: string; created_at: string };
     type Category = { name: string; description?: string };
+    type Profile = { full_name?: string; email?: string; role?: string };
     
     const products = (productsResult.data || []) as Product[];
     const invoices = (invoicesResult.data || []) as Invoice[];
     const categories = (categoriesResult.data || []) as Category[];
-    const profile = profileResult.data;
+    const profile = profileResult.data as Profile | null;
 
     // Calculate business metrics
     const totalProducts = products.length;

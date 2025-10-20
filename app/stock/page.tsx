@@ -205,7 +205,7 @@ export default function StockManagementPage() {
           new_quantity: newQuantity,
           reason: formData.reason,
           created_by: user.id,
-        })
+        } as never)
 
       if (logError) {
         console.error('Error logging transaction:', logError)
@@ -217,7 +217,7 @@ export default function StockManagementPage() {
       // We'll handle that with a SQL fix
       const { error: updateError } = await supabase
         .from('products')
-        .update({ quantity: newQuantity })
+        .update({ quantity: newQuantity } as never)
         .eq('id', selectedProduct.id)
 
       if (updateError) throw updateError

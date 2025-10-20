@@ -74,14 +74,17 @@ export default function CategoriesPage() {
         .select('category_id')
 
       const productCounts = new Map<string, number>()
-      products?.forEach(p => {
+      const productsArray = (products || []) as { category_id: string | null }[]
+      productsArray.forEach(p => {
         if (p.category_id) {
           const count = productCounts.get(p.category_id) || 0
           productCounts.set(p.category_id, count + 1)
         }
       })
 
-      const categoriesWithCount: CategoryWithCount[] = (categoriesData || []).map(cat => ({
+      type CategoryData = { id: string; name: string; description: string | null; icon: string | null; color: string | null; is_active: boolean; created_at: string; updated_at: string };
+      const categoriesArray = (categoriesData || []) as CategoryData[];
+      const categoriesWithCount: CategoryWithCount[] = categoriesArray.map(cat => ({
         ...cat,
         product_count: productCounts.get(cat.id) || 0,
       }))
@@ -117,7 +120,7 @@ export default function CategoriesPage() {
         console.log('🔍 Updating category:', editingCategory.id)
         const { data, error } = await supabase
           .from('categories')
-          .update(categoryData)
+          .update(categoryData as never)
           .eq('id', editingCategory.id)
           .select()
 
@@ -127,7 +130,7 @@ export default function CategoriesPage() {
         console.log('🔍 Inserting new category')
         const { data, error } = await supabase
           .from('categories')
-          .insert(categoryData)
+          .insert(categoryData as never)
           .select()
 
         console.log('🔍 Insert result:', { data, error })

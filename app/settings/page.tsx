@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { useUser } from '@/hooks/useUser'
 
@@ -31,7 +32,7 @@ export default function SettingsPage() {
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ full_name: fullName })
+        .update({ full_name: fullName } as never)
         .eq('id', user.id)
 
       if (error) throw error
@@ -90,24 +91,33 @@ export default function SettingsPage() {
               </div>
             )}
 
-            <Input
-              label="Email"
-              type="email"
-              value={profile?.email || ''}
-              disabled
-            />
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={profile?.email || ''}
+                disabled
+              />
+            </div>
 
-            <Input
-              label="Full Name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
+            <div className="space-y-2">
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input
+                id="fullName"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </div>
 
-            <Input
-              label="Role"
-              value={profile?.role || ''}
-              disabled
-            />
+            <div className="space-y-2">
+              <Label htmlFor="role">Role</Label>
+              <Input
+                id="role"
+                value={profile?.role || ''}
+                disabled
+              />
+            </div>
 
             <Button type="submit" disabled={loading}>
               {loading ? 'Updating...' : 'Update Profile'}

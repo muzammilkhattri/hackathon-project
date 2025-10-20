@@ -30,6 +30,7 @@ const chartConfig = {
 export function ShopEaseChartLowStock() {
   const [chartData, setChartData] = useState<{ name: string; stock: number; fill: string }[]>([])
   const [loading, setLoading] = useState(true)
+  const [lowStockCount, setLowStockCount] = useState(0)
 
   useEffect(() => {
     fetchLowStockProducts()
@@ -47,14 +48,20 @@ export function ShopEaseChartLowStock() {
 
       if (error) throw error
 
+      type ProductType = { name: string; quantity: number; low_stock_threshold: number };
+      const productsTyped = (products || []) as ProductType[];
+      
+      // Count low stock items
+      const lowCount = productsTyped.filter(p => p.quantity <= p.low_stock_threshold).length;
+      setLowStockCount(lowCount);
+      
       // Format data for chart
-      const formattedData = (products || []).map((product) => ({
-        product: product.name.length > 20 
+      const formattedData = productsTyped.map((product) => ({
+        name: product.name.length > 20 
           ? product.name.substring(0, 20) + '...' 
           : product.name,
         stock: product.quantity,
-        threshold: product.low_stock_threshold,
-        isLow: product.quantity <= product.low_stock_threshold,
+        fill: product.quantity <= product.low_stock_threshold ? 'hsl(var(--destructive))' : 'hsl(var(--primary))',
       }))
 
       setChartData(formattedData)
@@ -64,8 +71,6 @@ export function ShopEaseChartLowStock() {
       setLoading(false)
     }
   }
-
-  const lowStockCount = chartData.filter(item => item.isLow).length
 
   return (
     <Card>

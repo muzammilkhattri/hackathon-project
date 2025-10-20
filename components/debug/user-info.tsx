@@ -45,7 +45,7 @@ export function UserInfoDebug() {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-gray-400">Role:</span>
-          <Badge variant={isAdmin ? 'success' : 'warning'}>
+          <Badge variant={isAdmin ? 'default' : 'secondary'}>
             {profile.role.toUpperCase()}
           </Badge>
         </div>

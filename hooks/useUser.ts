@@ -43,7 +43,7 @@ export function useUser() {
                 id: user.id,
                 email: user.email!,
                 role: 'cashier',
-              })
+              } as never)
               .select()
               .single();
             

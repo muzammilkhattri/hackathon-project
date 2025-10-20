@@ -80,8 +80,9 @@ export default function NewSalePage() {
     // Validate quantity doesn't exceed available stock
     if (field === 'quantity') {
       const product = products.find(p => p.id === newItems[index].productId)
-      if (product && value > product.quantity) {
-        alert(`Cannot sell ${value} units. Only ${product.quantity} units available in stock for ${product.name}`)
+      const numValue = typeof value === 'string' ? parseFloat(value) : value;
+      if (product && numValue > product.quantity) {
+        alert(`Cannot sell ${numValue} units. Only ${product.quantity} units available in stock for ${product.name}`)
         newItems[index].quantity = product.quantity
       }
     }
@@ -132,14 +133,17 @@ export default function NewSalePage() {
           status: 'completed',
           notes: notes || null,
           created_by: user.id,
-        })
+        } as never)
         .select()
         .single()
 
       if (invoiceError) throw invoiceError
 
+      type InvoiceResult = { id: string };
+      const invoiceTyped = invoice as InvoiceResult;
+      
       const invoiceItems = items.map(item => ({
-        invoice_id: invoice.id,
+        invoice_id: invoiceTyped.id,
         product_id: item.productId,
         product_name: item.productName,
         quantity: item.quantity,
@@ -151,11 +155,11 @@ export default function NewSalePage() {
 
       const { error: itemsError } = await supabase
         .from('invoice_items')
-        .insert(invoiceItems)
+        .insert(invoiceItems as never)
 
       if (itemsError) throw itemsError
 
-      router.push(`/sales/${invoice.id}`)
+      router.push(`/sales/${invoiceTyped.id}`)
     } catch (error) {
       console.error('Error creating invoice:', error)
       alert('Failed to create invoice')
