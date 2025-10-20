@@ -60,9 +60,13 @@ export async function POST(request: NextRequest) {
         supabase.from("profiles").select("*").eq("id", user.id).single(),
       ]);
 
-    const products = productsResult.data || [];
-    const invoices = invoicesResult.data || [];
-    const categories = categoriesResult.data || [];
+    type Product = { id: string; name: string; quantity: number; price: number; cost_price: number; category: string; low_stock_threshold: number };
+    type Invoice = { invoice_number: string; total_amount: number; total_profit: number; payment_method: string; created_at: string };
+    type Category = { name: string; description?: string };
+    
+    const products = (productsResult.data || []) as Product[];
+    const invoices = (invoicesResult.data || []) as Invoice[];
+    const categories = (categoriesResult.data || []) as Category[];
     const profile = profileResult.data;
 
     // Calculate business metrics

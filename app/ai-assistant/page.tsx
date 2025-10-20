@@ -172,8 +172,8 @@ export default function AIAssistantPage() {
                             ul: ({...props}) => <ul className="list-disc pl-4" {...props} />,
                             ol: ({...props}) => <ol className="list-decimal pl-4" {...props} />,
                             li: ({...props}) => <li className="leading-relaxed" {...props} />,
-                            code: ({inline, ...props}: { inline?: boolean; [key: string]: unknown }) => 
-                              inline ? (
+                            code: (props: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) => 
+                              props.inline ? (
                                 <code className="bg-background/50 px-1 py-0.5 rounded text-xs font-mono" {...props} />
                               ) : (
                                 <code className="block bg-background/50 p-2 rounded text-xs font-mono overflow-x-auto" {...props} />
